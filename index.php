@@ -25,8 +25,28 @@ include 'collatz_functions.php';
         $end = intval($_GET["end"]);
 
         if ($start > 0 && $end >= $start) {
-            collatz_range($start, $end);
-            print_results();
+            $collatz = new Collatz($start);
+            $collatz->calculateRange($end);
+            $stats = $collatz->getStatistics();
+            $results = $collatz->getResults();
+            
+
+            echo "<h3>Collatz Results</h3>";
+            echo "<p>Number with max iterations: <strong>{$stats['maxIterations']}</strong></p>";
+            echo "<p>Number with min iterations: <strong>{$stats['minIterations']}</strong></p>";
+            echo "<p>Number with highest value reached: <strong>{$stats['maxValue']}</strong></p>";
+
+            echo "<table border='1'>";
+            echo "<tr><th>Number</th><th>Max Value</th><th>Iterations</th><th>Sequence</th></tr>";
+            foreach ($results as $num => $info) {
+                echo "<tr>
+                        <td>{$info['number']}</td>
+                        <td>{$info['maxValue']}</td>
+                        <td>{$info['iterations']}</td>
+                        <td>{$info['sequence']}</td>
+                      </tr>";
+            }
+            echo "</table>";
         } else {
             echo "<p style='color: red;'>Invalid range. Ensure start > 0 and end >= start.</p>";
         }
