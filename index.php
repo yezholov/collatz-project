@@ -1,24 +1,36 @@
 <?php
+include 'collatz_functions.php';
+?>
 
-function collatz($l)
-{
-    echo "$l";
-    while ($l !== 1) {
-        if ($l % 2 == 0) {
-            $l /= 2;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collatz Conjecture</title>
+</head>
+<body>
+    <h2>Collatz Conjecture Calculator</h2>
+    <form method="GET">
+        <label>Start Number:</label>
+        <input type="number" name="start" required>
+        <label>End Number:</label>
+        <input type="number" name="end" required>
+        <button type="submit">Calculate</button>
+    </form>
+
+    <?php
+    if (isset($_GET["start"]) && isset($_GET["end"])) {
+        $start = intval($_GET["start"]);
+        $end = intval($_GET["end"]);
+
+        if ($start > 0 && $end >= $start) {
+            collatz_range($start, $end);
+            print_results();
         } else {
-            $l = $l * 3 + 1;
+            echo "<p style='color: red;'>Invalid range. Ensure start > 0 and end >= start.</p>";
         }
     }
-    echo "<br>";
-}
-
-for ($x = 1; $x <= 10; $x++) {
-    echo "The number is: $x <br>";
-    collatz($x);
-}
-
-echo "<br>";
-echo "The number is: 123 <br>";
-collatz(123);
-?>
+    ?>
+</body>
+</html>
