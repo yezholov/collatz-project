@@ -9,7 +9,6 @@ function collatz($l)
         } else {
             $l = $l * 3 + 1;
         }
-        echo " $l";
     }
     echo "<br>";
 }
